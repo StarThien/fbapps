@@ -3,279 +3,150 @@ const express = require("express")
 const app = express()
 const server = require('http').Server(app)
 const request = require('request')
-var log_access = []
-var ip_client = ['116.110.9.87', '14.232.213.61', '103.255.237.227', '103.255.237.2', '125.212.220.195']
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({
     extended: false
 }))
-app.get('/', (req, res) => {
-    res.send("IP: " + getClientAddress(req) + " - True - Developed by _Neiht - Fb.com/Neiht.CKGT")
-})
-app.post('/Auto-Like', (req, res) => {
-    if (!in_array(getClientAddress(req), ip_client)) {
-        res.json({
-            status: 'Fail!',
-            developer: '_Neiht'
-        })
-    } else {
-        for (var a = 0; a < req.body.access_token.length; a++) {
-            ! function(a) {
-                setTimeout(function() {
-                    AutoLike(req.body.id, req.body.access_token[a])
-                }, a * req.body.time_delay)
-            }
-            (a)
-        }
-        res.json({
-            status: 200,
-            type: 'Auto Like',
-            fbid: req.body.id,
-            total_access_token: req.body.access_token.length,
-            time_delay: req.body.time_delay,
-            developer: '_Neiht'
-        })
-    }
-})
-app.post('/Auto-React', (req, res) => {
-    if (!in_array(getClientAddress(req), ip_client)) {
-        res.json({
-            status: 'Fail!',
-            developer: '_Neiht'
-        })
-    } else {
-        for (var a = 0; a < req.body.access_token.length; a++) {
-            ! function(a) {
-                setTimeout(function() {
-                    AutoReact(req.body.typeReact, req.body.id, req.body.access_token[a])
-                }, a * req.body.time_delay)
-            }
-            (a)
-        }
-        res.json({
-            status: 200,
-            type: 'Auto Reaction',
-            type_reaction: req.body.typeReact,
-            fbid: req.body.id,
-            total_access_token: req.body.access_token.length,
-            time_delay: req.body.time_delay,
-            developer: '_Neiht'
-        })
-    }
+
+app.get('/*', (req, res) => {
+    res.send('Hello Bitch ^^')
 })
 
-app.post('/Auto-React-Custom', (req, res) => {
-    if (!in_array(getClientAddress(req), ip_client)) {
-        res.json({
-            status: 'Fail!',
-            developer: '_Neiht'
-        })
-    } else {
-        for (var a = 0; a < req.body.access_token.length; a++) {
-            ! function(a) {
-                setTimeout(function() {
-                    AutoReactCustom(req.body.typeReact, req.body.id, req.body.access_token[a])
-                }, a * req.body.time_delay)
-            }
-            (a)
-        }
-        res.json({
-            status: 200,
-            type: 'Auto Reaction',
-            type_reaction: req.body.typeReact,
-            fbid: req.body.id,
-            total_access_token: req.body.access_token.length,
-            time_delay: req.body.time_delay,
-            developer: '_Neiht'
-        })
-    }
-})
-app.post('/Auto-Cmt', (req, res) => {
-    if (!in_array(getClientAddress(req), ip_client)) {
-        res.json({
-            status: 'Fail!',
-            developer: '_Neiht'
-        })
-    } else {
-        for (var a = 0; a < req.body.access_token.length; a++) {
-            ! function(a) {
-                setTimeout(function() {
-                    AutoCmt(req.body.id, req.body.arr_message[a], req.body.access_token[a])
-                }, a * req.body.time_delay)
-            }
-            (a)
-        }
-        res.json({
-            status: 200,
-            type: 'Auto Cmt',
-            fbid: req.body.id,
-            total_access_token: req.body.access_token.length,
-            time_delay: req.body.time_delay,
-            developer: '_Neiht'
-        })
-    }
-})
-app.post('/Bot-React', (req, res) => {
-    if (!in_array(getClientAddress(req), ip_client)) {
-        res.json({
-            status: 'Fail!',
-            developer: '_Neiht'
-        })
-    } else {
-        var typeReact = req.body.typeReact
-        for (var a = 0; a < req.body.arrPostID.length; a++) {
-            ! function(a, typeReact) {
-                setTimeout(function() {
-                    AutoReact(typeReact, req.body.arrPostID[a], req.body.access_token)
-                }, a * req.body.time_delay)
-            }
-            (a, typeReact)
-        }
-        res.json({
-            status: 200,
-            type: 'Bot Reaction',
-            type_reaction: req.body.typeReact,
-            post_id: req.body.arrPostID,
-            total_post_id: req.body.arrPostID.length,
-            time_delay: req.body.time_delay,
-            developer: '_Neiht'
-        })
-    }
-})
-app.post('/Auto-Sub', (req, res) => {
-    if (!in_array(getClientAddress(req), ip_client)) {
-        res.json({
-            status: 'Fail!',
-            developer: '_Neiht'
-        })
-    } else {
-        for (var a = 0; a < req.body.access_token.length; a++) {
-                ! function(a) {
-                    setTimeout(function() {
-                        AutoSub(req.body.id, req.body.access_token[a])
-                    }, a * req.body.time_delay)
-                }
-                (a)
-        }
-        res.json({
-            status: 200,
-            type: 'Auto Sub',
-            fbid: req.body.id,
-            total_access_token: req.body.access_token.length,
-            time_delay: req.body.time_delay,
-            developer: '_Neiht'
-        })
-    }
-})
-app.post('/Auto-Friend', (req, res) => {
-    if (!in_array(getClientAddress(req), ip_client)) {
-        res.json({
-            status: 'Fail!',
-            developer: '_Neiht'
-        })
-    } else {
-        for (var a = 0; a < req.body.access_token.length; a++) {
-            ! function(a) {
-                setTimeout(function() {
-                    AutoFriend(req.body.id, req.body.access_token[a])
-                }, a * req.body.time_delay)
-            }
-            (a)
-        }
-        res.json({
-            status: 200,
-            type: 'Auto Add Friend',
-            fbid: req.body.id,
-            total_access_token: req.body.access_token.length,
-            time_delay: req.body.time_delay,
-            developer: '_Neiht'
-        })
-    }
-})
-app.post('/Auto-Share', (req, res) => {
-    if (!in_array(getClientAddress(req), ip_client)) {
-        res.json({
-            status: 'Fail!',
-            developer: '_Neiht'
-        })
-    } else {
-        for (var a = 0; a < req.body.access_token.length; a++) {
-            ! function(a) {
-                setTimeout(function() {
-                    AutoShare(req.body.id, req.body.access_token[a])
-                }, a * req.body.time_delay)
-            }
-            (a)
-        }
-        res.json({
-            status: 200,
-            type: 'Auto Share',
-            fbid: req.body.id,
-            total_access_token: req.body.access_token.length,
-            time_delay: req.body.time_delay,
-            developer: '_Neiht'
-        })
-    }
-})
-
-function AutoLike(post_id, access_token) {
-    request('https://graph.facebook.com/' + post_id + '/likes?method=post&access_token=' + access_token, (error, response, body) => {
-        console.log(body)
+app.post('/Reg-Acc-API', (req, res) => {
+    reg_api_account(req.body, result => {
+        res.json(result)
     })
-}
+})
 
-function AutoReact(typeReact, post_id, access_token) {
-    if (typeReact == 'random') {
-        var arrReact = ['LIKE', 'LOVE', 'HAHA', 'WOW', 'SAD', 'ANGRY']
-        typeReact = arrReact[Math.floor(Math.random() * arrReact.length)]
-    }
-    request('https://graph.facebook.com/v2.4/' + post_id + '/reactions?method=post&access_token=' + access_token + '&type=' + typeReact, (error, response, body) => {
-        console.log(body)
+app.post('/Change-Email-API', (req, res) => {
+    change_api_email(req.body, result => {
+        res.json(result)
     })
-}
-
-function AutoReactCustom(typeReactt, id_post, access_token) {
-    if (typeReactt.length > 1) {
-        var typeReact = typeReactt[Math.floor(Math.random() * typeReactt.length)]
-    } else {
-        var typeReact = typeReactt
-    }
-    request('https://graph.facebook.com/v2.4/' + id_post + '/reactions?method=post&access_token=' + access_token + '&type=' + typeReact, (error, response, body) => {
-        console.log(body)
+})
+app.post('/Verify-Account-API', (req, res) => {
+    verify_api_account(req.body, result => {
+        res.json(result)
     })
-}
-
-function AutoCmt(id_post, message, access_token){
-    request('https://graph.facebook.com/' + id_post + '/comments?method=post&message=' + encodeURI(message) + '&access_token=' + access_token, (error, response, body) => {
-        console.log(body)
-    })
-}
-
-function AutoSub(id_user, access_token) {
-    request('https://graph.facebook.com/' + id_user + '/subscribers?method=post&access_token=' + access_token, (error, response, body) => {
-        console.log(body)
-    })
-}
-
-function AutoFriend(id_user, access_token) {
-    request('https://graph.facebook.com/me/friends?uid=' + id_user + '&method=post&access_token=' + access_token, (error, response, body) => {
-        console.log(body)
-    })
-}
-
-function AutoShare(id_post, access_token) {
-    request('https://graph.facebook.com/' + id_post + '/sharedposts?method=post&access_token=' + access_token, (error, response, body) => {
-        console.log(body)
-    })
-}
-function in_array(needle, haystack){
-    return haystack.indexOf(needle) !== -1;
-}
-getClientAddress = function (req) {
-        return (req.headers['x-forwarded-for'] || '').split(',')[0] 
-        || req.connection.remoteAddress;
-}
-var port = process.env.PORT || 8080,
-    ip   = process.env.IP   || '0.0.0.0';
+})
+let port = process.env.PORT || 9098,
+    ip = process.env.IP || '0.0.0.0';
 app.listen(port, ip);
 console.log('Server running on http://%s:%s', ip, port);
+
+
+
+////////////////////////////////////////////////////////
+function getIpClient(req) {
+    return new Promise ((resolve, reject) => {
+        resolve((req.headers['x-forwarded-for'] || '').split(',')[0] || req.connection.remoteAddress);
+    })
+}
+/////////////////////////////////////////////////////////////
+function reg_api_account(data, callback){
+    let data_reg = data.params;
+    request({
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+            'Host': 'b-api.facebook.com',
+            'X-FB-Connection-Type': 'WIFI',
+            'User-Agent': data.agent,
+            'X-FB-Net-HNI': '45204',
+            'X-FB-Connection-Quality': 'EXCELLENT',
+            'X-FB-Friendly-Name': 'registerAccount',
+            'X-FB-HTTP-Engine': 'Liger',
+            'Connection': 'keep-alive',
+            'Content-Length': data.params_lenght,
+        },
+        uri: data.url,
+        body: data_reg,
+        method: 'POST'
+    }, function(err, res, body) {
+        if (err) return err.toString()
+        let json_data = JSON.parse(body)
+        if (typeof json_data == 'object') {
+            callback(json_data)
+        } else {
+            callback('error')
+        }
+    })
+}
+function change_api_email(data, callback){
+    let data_change = data.params;
+    request({
+        headers: {
+            'X-FB-Connection-Bandwidth': '3392868',
+            'X-FB-SIM-HNI': '45204',
+            'X-FB-Net-HNI': '45204',
+            'Authorization': 'OAuth ' + data.access_token,
+            'X-FB-Connection-Quality': 'EXCELLENT',
+            'Host': 'api.facebook.com',
+            'X-FB-Connection-Type': 'WIFI',
+            'User-Agent': data.agent,
+            'Content-Type': 'application/x-www-form-urlencoded',
+            'X-FB-Friendly-Name':' editRegistrationContactpoint',
+            'X-FB-HTTP-Engine': 'Liger',
+            'Connection': 'keep-alive',
+            'Content-Length': data.params_lenght,
+        },
+        uri: data.url,
+        body: data_change,
+        method: 'POST'
+    }, function(err, res, body) {
+        console.log('change '+body)
+        if (err) return err.toString()
+        if(body.indexOf("true") != -1) {
+            callback({
+                'success': 'true',
+            })
+        } else if(body.indexOf("checkpoint")){
+            callback({
+                'success': 'false',
+                'e_msg' : 'Checkpoint!'
+            })
+        }
+    })
+}
+function verify_api_account(data, callback){
+    let verify = data.params;
+    request({
+        headers: {
+            'X-FB-Connection-Bandwidth': '3392868',
+            'X-FB-SIM-HNI': '45204',
+            'X-FB-Net-HNI': '45204',
+            'Authorization': 'OAuth ' + data.access_token,
+            'X-FB-Connection-Quality': 'EXCELLENT',
+            'Host': 'api.facebook.com',
+            'X-FB-Connection-Type': 'WIFI',
+            'User-Agent': data.agent,
+            'Content-Type': 'application/x-www-form-urlencoded',
+            'X-FB-Friendly-Name': 'confirmContactpoint',
+            'X-FB-HTTP-Engine': 'Liger',
+            'Connection': 'keep-alive',
+            'Content-Length': data.params_lenght,
+        },
+        uri: data.url,
+        body: verify,
+        method: 'POST'
+    }, function(err, res, body) {
+        console.log('verify '+body)
+        if (err) return err.toString()
+        if(body.indexOf("true") != -1) {
+            callback({
+                'success': 'true',
+            })
+        } else if(body.indexOf("checkpoint")){
+            callback({
+                'success': 'false',
+                'e_msg' : 'Checkpoint!'
+            })
+        }
+    })
+}
+function getBetween(content,start,end){
+    let r = content.split(start);
+    if(r[1]){
+        r = r[1].split(end);
+        return r[0];
+    }
+    return 0;
+}
